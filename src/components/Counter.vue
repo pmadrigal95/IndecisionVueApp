@@ -2,9 +2,11 @@
   <h2>{{ customTitle }}</h2>
   <p> {{ counter }} <sup>2</sup> = {{ squareCounter }} </p>
 
-  <div>
-    <button @click="increase">+1</button>
-    <button @click="decrease">-1</button>
+  <p data-testid="counter" >{{ counter }}</p>
+
+  <div class="btns">
+    <button data-testid="increaseBtn" @click="increase">+1</button>
+    <button data-testid="decreaseBtn" @click="decrease">-1</button>
   </div>
 </template>
 
@@ -20,7 +22,7 @@ export default {
         start: {
             type: Number,
             // required: true,
-            default: 1,
+            default: 100,
             validator( value ) {
                 return value > 0;
             },

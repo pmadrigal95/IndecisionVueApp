@@ -26,7 +26,11 @@ export default {
 
     watch: {
         question(value) {
+
             this.isValidQuestion = false;
+
+            console.log({value});
+
             if ( !value.includes('?')) return;
 
             this.getAnswer();
@@ -35,15 +39,20 @@ export default {
 
     methods: {
         async getAnswer() {
-            this.answer = 'Pensando ...';
+            try {
+                this.answer = 'Pensando...'
+                const { answer, image } = await fetch('https://yesno.wtf/api').then( r => r.json() )
+    
+                this.answer = answer === 'yes' ? 'Si!' : 'No!'
+                this.img = image
 
-         const {answer, image} = await fetch('https://yesno.wtf/api').then( r => r.json() );
-
-         this.answer = answer === 'yes' ? 'Si!' : 'No!';
-
-        this.img = image;
-
-        this.isValidQuestion = true;
+                this.isValidQuestion = true;
+                
+            } catch (error) {
+                console.log('IndecisionComponent: ', error )
+                this.answer = 'No se pudo cargar del API'
+                this.img    = null
+            }        
         },
     },
 }
